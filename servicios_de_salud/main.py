@@ -7,9 +7,9 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
-import barras.barras as barras # type: ignore
 import servicios_de_salud.pastel as pastel # Importar el nuevo módulo de pastel
-# import escolaridad.estadisticas as estadisticas # type: ignore
+import servicios_de_salud.anillo as anillo # Importar el nuevo módulo de anillo
+import servicios_de_salud.estadisticas as estadisticas # Importar el módulo de estadísticas
 
 DICIONARY_SERVICIOS_DE_SALUD = {
   0: "Ninguno",
@@ -25,9 +25,6 @@ DICIONARY_SERVICIOS_DE_SALUD = {
 }
 
 LIST_SERVICES_DE_SALUD = [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,5,7,8,8,8,8,8,8,8,8,8,'1-2','1-2','1-2','1-2','1-2','1-2','1-2','1-2','1-2','1-2']
-
-print("\n--- Gráfico de Barras (Servicios de Salud) ---")
-barras.plot_education_level(LIST_SERVICES_DE_SALUD, DICIONARY_SERVICIOS_DE_SALUD)
 
 print("\n--- Gráfico de Pastel (Servicios de Salud) ---")
 
@@ -53,5 +50,21 @@ pastel.plot_pie_chart(
     title="Distribución de Pacientes por Servicio de Salud",
     special_mappings={'1-2': 9} # Mapeo específico para este conjunto de datos
 )
+
+print("\n--- Gráfico de Anillo (Servicios de Salud) ---")
+anillo.plot_donut_chart(
+    data_list=LIST_SERVICES_DE_SALUD,
+    category_labels_dict=DICIONARY_SERVICIOS_DE_SALUD,
+    color_map=COLOR_BY_LEVEL_PASTEL, # Puedes usar el mismo mapa de colores
+    title="Distribución de Pacientes por Servicio de Salud (Anillo)",
+    special_mappings={'1-2': 9},
+    donut_hole_ratio=0.45 # Ajusta el tamaño del agujero como prefieras
+)
+
 print("\n--- Medidas Estadísticas (Servicios de Salud) ---")
-# estadisticas.medidas_estadisticas(LIST_SERVICES_DE_SALUD, DICIONARY_SERVICIOS_DE_SALUD)
+estadisticas.calcular_estadisticas_servicios(
+    data_list=LIST_SERVICES_DE_SALUD,
+    category_labels_dict=DICIONARY_SERVICIOS_DE_SALUD,
+    special_mappings={'1-2': 9},
+    title="Análisis Estadístico de Afiliación a Servicios de Salud"
+)
