@@ -39,7 +39,7 @@ def plot_education_level(education_list: list[int], DICTIONARY_LEVEL_EDUCATION: 
     plt.xlabel('Nivel de Escolaridad')
     plt.ylabel('Pacientes')
     plt.title('Escolaridad')
-    plt.xticks(levels, [DICTIONARY_LEVEL_EDUCATION[level] if upperCase else (DICTIONARY_LEVEL_EDUCATION[level].title) for level in levels], rotation=45, ha='right')
+    plt.xticks(levels, [DICTIONARY_LEVEL_EDUCATION[level] if upperCase else (DICTIONARY_LEVEL_EDUCATION[level].title()) for level in levels], rotation=45, ha='right')
     plt.grid(axis="y", linestyle="--", alpha=0.5)
 
     plt.tight_layout()
