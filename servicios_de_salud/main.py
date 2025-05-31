@@ -34,7 +34,7 @@ COLOR_BY_LEVEL_PASTEL = {
     1: "#C45693",     # rojo oscuro (para Secretaría de Salud)
     2: "#B22222",     # rojo (para IMSS)
     3: "#FF8C00",     # naranja
-    4: "#FFD700",     # dorado
+    4: "#1639D4",     # dorado
     5: "#9ACD32",     # verde oliva
     6: "#32CD32",     # verde
     7: "#00CED1",     # turquesa
@@ -51,15 +51,15 @@ pastel.plot_pie_chart(
     special_mappings={'1-2': 9} # Mapeo específico para este conjunto de datos
 )
 
-print("\n--- Gráfico de Anillo (Servicios de Salud) ---")
-anillo.plot_donut_chart(
-    data_list=LIST_SERVICES_DE_SALUD,
-    category_labels_dict=DICIONARY_SERVICIOS_DE_SALUD,
-    color_map=COLOR_BY_LEVEL_PASTEL, # Puedes usar el mismo mapa de colores
-    title="Distribución de Pacientes por Servicio de Salud (Anillo)",
-    special_mappings={'1-2': 9},
-    donut_hole_ratio=0.45 # Ajusta el tamaño del agujero como prefieras
-)
+# print("\n--- Gráfico de Anillo (Servicios de Salud) ---")
+# anillo.plot_donut_chart(
+#     data_list=LIST_SERVICES_DE_SALUD,
+#     category_labels_dict=DICIONARY_SERVICIOS_DE_SALUD,
+#     color_map=COLOR_BY_LEVEL_PASTEL, # Puedes usar el mismo mapa de colores
+#     title="Distribución de Pacientes por Servicio de Salud (Anillo)",
+#     special_mappings={'1-2': 9},
+#     donut_hole_ratio=0.45 # Ajusta el tamaño del agujero como prefieras
+# )
 
 print("\n--- Medidas Estadísticas (Servicios de Salud) ---")
 estadisticas.calcular_estadisticas_servicios(

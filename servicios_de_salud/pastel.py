@@ -97,7 +97,14 @@ def plot_pie_chart(
     legend_patches = [mpatches.Patch(color=color if color else 'grey', label=label) 
                       for label, color in zip(pie_labels_for_legend, pie_colors)]
 
-    plt.legend(handles=legend_patches, title="Servicios de Salud", loc="center left", bbox_to_anchor=(1.02, 0.5), fontsize='medium')
+    plt.legend(
+        handles=legend_patches,
+        title="Servicios de Salud",
+        loc="center left",
+        bbox_to_anchor=(1.02, 0.5),
+        fontsize=18,         # <-- Ajusta este para el tamaño del texto de la leyenda
+        title_fontsize=20    # <-- Ajusta este para el tamaño del título de la leyenda
+    )
 
     plt.tight_layout(rect=[0, 0, 0.82, 1]) # Ajustar rect para dejar espacio a la leyenda
     plt.show()
