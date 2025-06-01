@@ -3,3 +3,5 @@ __pycache__/
 __pycache__
 *.pyo
 *.pyc
+pycache__/
+*.cpython-313.pyc
