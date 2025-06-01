@@ -26,13 +26,13 @@ COLOR_BY_LEVEL_PASTEL = {
 if __name__ == "__main__":
     print("\n--- Gráfico de Pastel (Cartilla de Vacunación) ---")
 
-    # pastel.plot_pie_chart(
-    #     data_list=DATA_SET_LIST,
-    #     category_labels_dict=CARTILLA_MAP,
-    #     color_map=COLOR_BY_LEVEL_PASTEL,  # Reutilizar el mapa de colores de barras.py
-    #     title="Distribución de Pacientes " + "\n" + " con Cartilla de Vacunación",
-    #     special_mappings={}  # No hay mapeos especiales en este caso
-    # )
+    pastel.plot_pie_chart(
+        data_list=DATA_SET_LIST,
+        category_labels_dict=CARTILLA_MAP,
+        color_map=COLOR_BY_LEVEL_PASTEL,  # Reutilizar el mapa de colores de barras.py
+        title="Distribución de Pacientes " + "\n" + " con Cartilla de Vacunación",
+        special_mappings={}  # No hay mapeos especiales en este caso
+    )
     
     print("\n--- Estadísticas de Pacientes ---")
     

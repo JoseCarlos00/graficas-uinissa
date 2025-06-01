@@ -84,7 +84,7 @@ def plot_pie_chart(
         wedgeprops={'edgecolor': 'black', 'linewidth': 0.5}
     )
 
-    plt.setp(autotexts, size=9, weight="bold", color="white")
+    plt.setp(autotexts, size=14, weight="bold", color="white")
     # Ocultar texto de porcentaje para rebanadas muy pequeñas si es necesario
     for i, at_text in enumerate(autotexts):
         if pie_counts[i] / sum(pie_counts) < 0.02: # Si la rebanada es menor al 2%
