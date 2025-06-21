@@ -59,7 +59,7 @@ def plot_pie_chart(
     )
 
     plt.setp(autotexts, size=12, weight="bold", color="white") # Ajusta el tamaño del texto del porcentaje en la rebanada
-    plt.title(title.title(), fontsize=22, fontweight="bold", pad=20) # Mantiene el tamaño de fuente del título original
+    plt.title(title.title(), fontsize=22, pad=20) # Mantiene el tamaño de fuente del título original
     plt.axis('equal')
 
     # 4. Añadir leyenda

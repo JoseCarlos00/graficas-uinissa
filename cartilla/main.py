@@ -7,7 +7,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
-import servicios_de_salud.pastel as pastel # Importar el nuevo módulo de pastelimport servicios_de_salud.pastel as pastel # Importar el nuevo módulo de pastel
+import cartilla.pastel as pastel # Importar el nuevo módulo de pastelimport servicios_de_salud.pastel as pastel # Importar el nuevo módulo de pastel
 import servicios_de_salud.estadisticas as estadisticas # Importar el módulo de estadísticas
 
 CARTILLA_MAP = {
