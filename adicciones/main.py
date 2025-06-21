@@ -69,41 +69,116 @@ plt.figure(figsize=(6,6))
 # Capturar wedges, texts (para labels_pie) y autotexts (para porcentajes)
 wedges, texts, autotexts = plt.pie(
     sizes_pie,
-    labels=labels_pie,                 # Etiquetas principales
-    autopct='%1.1f%%',                 # Formato de los porcentajes
+    labels=None,                 # Etiquetas principales
+    autopct=lambda p: f'{p:0.1f}%' if p >= 1 else '',                 # Formato de los porcentajes
     colors=PIE_CHART_COLORS,
     startangle=140,
-    pctdistance=0.8,                   # Distancia de los porcentajes desde el centro (ej. 0.8 para estar más afuera que las etiquetas)
-    labeldistance=0.5,                 # Distancia de las etiquetas desde el centro (<1 para estar dentro, ej. 0.5)
+    pctdistance=0.5,                   # Distancia de los porcentajes desde el centro (ej. 0.8 para estar más afuera que las etiquetas)
+    labeldistance=0.8,                 # Distancia de las etiquetas desde el centro (<1 para estar dentro, ej. 0.5)
     textprops={'fontsize': 12, 'horizontalalignment': 'center', 'verticalalignment': 'center'} # Propiedades para el texto de las etiquetas
+    
 )
 
-# Ajustar tamaño de fuente para los porcentajes (autotexts)
+
+# Ajusta el tamaño y color de los porcentajes y centraliza el texto
 for autotext in autotexts:
-    autotext.set_fontsize(18) # Ajusta el tamaño de la fuente del porcentaje aquí
-    
+    autotext.set_color('white')  # Cambia el color del texto de porcentaje
+    autotext.set_fontsize(18)     # Cambia el tamaño de fuente del texto de porcentaje
+    autotext.set_fontweight('bold')  # Hace el texto de porcentaje en negrita
+    # autotext.set_horizontalalignment('center')  # Centra el texto horizontalmente
+    autotext.set_verticalalignment('center')    # Centra el texto verticalmente
+
 plt.axis('equal')  # Equal aspect ratio ensures that pie chart is a circle.
-plt.title("Pacientes con / sin adicciones")
+plt.title("Pacientes con / sin adicciones", fontsize=22, pad=20)
+
+
+
+# Modificado para incluir el porcentaje en la etiqueta de la leyenda
+import matplotlib.patches as mpatches
+
+# Añadir leyenda
+plt.legend(
+    # handles=legend_patches,
+    handles=[mpatches.Patch(color=PIE_CHART_COLORS[0], label="Con adicciones"), mpatches.Patch(color=PIE_CHART_COLORS[1], label="Sin adicciones")],
+    title="Adicciones",
+    loc="center left",
+    bbox_to_anchor=(1.02, 0.5),
+    fontsize=12,
+    title_fontsize=14
+)
+
+plt.tight_layout()
 plt.show()
+
+total_adicciones = sum(len(p) for p in LIST_ADDICTIONS)
+print(f"\n🔹 Total de adicciones registradas: {total_adicciones}")
+
+
+# Gráfico de pastel: distribución de cada tipo de adicción
+def plot_addiction_pie_chart():
+    """Genera un gráfico de pastel mostrando la distribución de cada tipo de adicción."""
+    # Ordenar los datos por la clave de la adicción para consistencia
+    sorted_items = sorted(conteo.items())
+    
+    # Preparar los datos para el gráfico
+    labels = [DICCTIONARY_ADDICTION.get(k, str(k)) for k, v in sorted_items]
+    sizes = [v for k, v in sorted_items]
+    # Usar los colores definidos en BAR_CHART_COLORS
+    colors = BAR_CHART_COLORS[:len(labels)]
+
+    plt.figure(figsize=(12, 8))
+    
+    wedges, texts, autotexts = plt.pie(
+        sizes,
+        autopct='%1.1f%%', # Mostrar porcentaje dentro de cada porción
+        startangle=140,
+        colors=colors,
+        pctdistance=0.75,
+        wedgeprops={'edgecolor': 'black', 'linewidth': 0.5}
+    )
+
+    # Estilo para el texto del porcentaje
+    plt.setp(autotexts, size=12, weight="bold", color="white")
+
+    plt.title("Distribución de Tipos de Adicción", fontsize=22, pad=20)
+    plt.axis('equal')  # Asegura que el gráfico sea un círculo.
+
+    # Crear leyenda con el nombre y el porcentaje de cada adicción
+    legend_patches = [mpatches.Patch(color=color, label=f'{label}:({size/total_adicciones*100:.1f}%)') 
+                      for label, color, size in zip(labels, colors, sizes)]
+
+    plt.legend(handles=legend_patches, title="Tipos de Adicción", loc="center left", bbox_to_anchor=(1.02, 0.5), fontsize=12, title_fontsize=14)
+    plt.tight_layout(rect=[0, 0, 0.8, 1]) # Ajustar para dejar espacio a la leyenda
+    plt.show()
 
 # Gráfico de barras: frecuencia de cada adicción
-adicciones_labels = [DICCTIONARY_ADDICTION.get(k, str(k)) for k in conteo.keys()] 
-frecuencias = list(conteo.values())
+def plot_bar_chart():
+    # Ordenar las adicciones por su clave (ID) para una visualización consistente
+    sorted_items = sorted(conteo.items())
+    adicciones_labels = [DICCTIONARY_ADDICTION.get(k, str(k)) for k, v in sorted_items]
+    frecuencias = [v for k, v in sorted_items]
 
-plt.figure(figsize=(8,5))
-bars = plt.bar(adicciones_labels, frecuencias, color=BAR_CHART_COLORS, edgecolor='black')
+    plt.figure(figsize=(10, 6))
+    bars = plt.bar(adicciones_labels, frecuencias, color=BAR_CHART_COLORS, edgecolor='black')
 
-# Etiquetas sobre cada barra
-for bar in bars:
-    yval = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2, yval + 0.1, yval, ha='center', va='bottom', fontsize=10)
-        
-plt.xlabel("Adicción").set_fontsize(14)
-plt.ylabel("Cantidad de pacientes")
-plt.title("Frecuencia de cada adicción")
-plt.xticks(rotation=45, ha="right") # Rotar etiquetas para mejor legibilidad
+    # Etiquetas sobre cada barra
+    for bar in bars:
+        yval = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2, yval + 0.2, yval, ha='center', va='bottom', fontsize=10, fontweight='bold')
+            
+    plt.xlabel("Tipo de Adicción", fontsize=12)
+    plt.ylabel("Cantidad de Pacientes", fontsize=12)
+    plt.title("Frecuencia de Cada Adicción", fontsize=16, fontweight='bold')
+    plt.xticks(rotation=45, ha="right") # Rotar etiquetas para mejor legibilidad
+    plt.ylim(0, max(frecuencias) + 5) # Añadir espacio en la parte superior
 
-plt.grid(axis="y", linestyle="--", alpha=0.5)
-plt.tight_layout() # Ajustar diseño para que todo encaje
+    plt.grid(axis="y", linestyle="--", alpha=0.5)
+    plt.tight_layout() # Ajustar diseño para que todo encaje
 
-plt.show()
+    plt.show()
+
+# --- Generar Gráfico de Barras ---
+plot_bar_chart()
+
+# --- Generar Gráfico de Pastel (Distribución de Adicciones) ---
+plot_addiction_pie_chart()
