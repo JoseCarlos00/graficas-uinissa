@@ -11,6 +11,10 @@ import servicios_de_salud.pastel as pastel # Importar el nuevo módulo de pastel
 import servicios_de_salud.anillo as anillo # Importar el nuevo módulo de anillo
 import servicios_de_salud.estadisticas as estadisticas # Importar el módulo de estadísticas
 
+import escolaridad.barras as barras # Importar el módulo de barras
+
+
+
 DICIONARY_SERVICIOS_DE_SALUD = {
   0: "Ninguno",
   1: "Secretaría de Salud",
@@ -67,4 +71,13 @@ estadisticas.calcular_estadisticas_servicios(
     category_labels_dict=DICIONARY_SERVICIOS_DE_SALUD,
     special_mappings={'1-2': 9},
     title="Análisis Estadístico de Afiliación a Servicios de Salud"
+)
+
+print("\n--- Gráfico de Barras (Servicios de Salud) ---")
+barras.plot_education_level(
+    data_list=LIST_SERVICES_DE_SALUD,
+    category_labels_dict=DICIONARY_SERVICIOS_DE_SALUD,
+    color_map=COLOR_BY_LEVEL_PASTEL,  # Reutilizar el mapa de colores de pastel.py
+    title="Distribución de Pacientes por Servicio de Salud",
+    special_mappings={'1-2': 9} # Mapeo específico para este conjunto de datos
 )
