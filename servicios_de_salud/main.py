@@ -8,7 +8,7 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
 import servicios_de_salud.pastel as pastel # Importar el nuevo módulo de pastel
-import servicios_de_salud.anillo as anillo # Importar el nuevo módulo de anillo
+# import servicios_de_salud.anillo as anillo # Importar el nuevo módulo de anillo
 import servicios_de_salud.estadisticas as estadisticas # Importar el módulo de estadísticas
 
 import escolaridad.barras as barras # Importar el módulo de barras
@@ -46,14 +46,13 @@ COLOR_BY_LEVEL_PASTEL = {
     9: "#6A5ACD",     # púrpura
 }
 
-
+# Generar gráfico de pastel
 pastel.plot_pie_chart(
-    data_list=LIST_SERVICES_DE_SALUD,
-    category_labels_dict=DICIONARY_SERVICIOS_DE_SALUD,
-    color_map=COLOR_BY_LEVEL_PASTEL,  # Reutilizar el mapa de colores de barras.py
-    title="Distribución de Pacientes por Servicio de Salud",
-    special_mappings={'1-2': 9} # Mapeo específico para este conjunto de datos
-)
+        data_list=LIST_SERVICES_DE_SALUD,
+        category_labels_dict=DICIONARY_SERVICIOS_DE_SALUD,
+        color_map=COLOR_BY_LEVEL_PASTEL,
+        title="Distribución de Pacientes\npor Servicio de Salud",
+    )
 
 # print("\n--- Gráfico de Anillo (Servicios de Salud) ---")
 # anillo.plot_donut_chart(
@@ -73,11 +72,11 @@ estadisticas.calcular_estadisticas_servicios(
     title="Análisis Estadístico de Afiliación a Servicios de Salud"
 )
 
-print("\n--- Gráfico de Barras (Servicios de Salud) ---")
-barras.plot_education_level(
-    data_list=LIST_SERVICES_DE_SALUD,
-    category_labels_dict=DICIONARY_SERVICIOS_DE_SALUD,
-    color_map=COLOR_BY_LEVEL_PASTEL,  # Reutilizar el mapa de colores de pastel.py
-    title="Distribución de Pacientes por Servicio de Salud",
-    special_mappings={'1-2': 9} # Mapeo específico para este conjunto de datos
-)
+# print("\n--- Gráfico de Barras (Servicios de Salud) ---")
+# barras.plot_education_level(
+#     data_list=LIST_SERVICES_DE_SALUD,
+#     category_labels_dict=DICIONARY_SERVICIOS_DE_SALUD,
+#     color_map=COLOR_BY_LEVEL_PASTEL,  # Reutilizar el mapa de colores de pastel.py
+#     title="Distribución de Pacientes por Servicio de Salud",
+#     special_mappings={'1-2': 9} # Mapeo específico para este conjunto de datos
+# )
