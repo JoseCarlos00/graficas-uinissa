@@ -109,34 +109,6 @@ def create_bar_chart():
     plt.show()
     
 
-# --- Llamadas a Gráficos ---
-
-# # 1. Gráfico de Barras
-# print("\n--- Gráfico de Barras (Acceso a Servicios) ---")
-# create_bar_chart()
-
-# 2. Gráfico de Pastel
-# El gráfico de pastel mostrará la proporción de cada servicio con respecto al total de "accesos" a servicios.
-# Dado que un paciente puede tener múltiples servicios, no podemos graficar la "distribución de pacientes".
-# En su lugar, graficamos la distribución de los servicios que tienen.
-
-# # Preparar datos para la función de pastel
-# servicios_dict = {i: nombre for i, nombre in enumerate(servicios_nombres)}
-# color_map_servicios = {i: color for i, color in enumerate(COLOR_BY_LEVEL)}
-
-# # Crear una lista larga donde cada elemento es un "acceso" a un servicio
-# data_list_servicios = []
-# for i, count in enumerate(acceso_por_servicio):
-#     data_list_servicios.extend([i] * count)
-
-print("\n--- Gráfico de Pastel (Proporción de Accesos por Servicio) ---")
-# pastel.plot_pie_chart(
-#     data_list=data_list_servicios,
-#     category_labels_dict=servicios_dict,
-#     title="Proporción de Accesos por\nTipo de Servicio Público",
-#     color_map=color_map_servicios,
-# )
-
 # Gráfico de barras horizontales
 def create_horizontal_bar_chart():
     plt.figure(figsize=(10, 6))
@@ -155,46 +127,42 @@ def create_horizontal_bar_chart():
 
 # Ya tienes esto:
 acceso_por_servicio = np.sum(data, axis=1)  # accesos por servicio
+print("🔹 Acceso por servicio:", acceso_por_servicio)
 
-# Total de accesos posibles (7 servicios × 110 pacientes)
-total_accesos = data.size
+def create_pie_chart():
+    # El problema es que los porcentajes se calculaban sobre bases distintas.
+    # `plt.pie` calcula el porcentaje de cada rebanada respecto a la SUMA de los datos que se le pasan.
+    # La leyenda, sin embargo, usaba un porcentaje pre-calculado que se basaba en el total de accesos *posibles*, no en el total de accesos *reales*.
+    # Para que coincidan, debemos usar la misma base para ambos cálculos: el total de accesos reales.
 
-# Porcentaje de accesos por servicio (distribución de la totalidad)
-porcentaje_pastel = (acceso_por_servicio / total_accesos) * 100
-
-plt.figure(figsize=(8, 8))
-wedges, texts_pie, autotexts = plt.pie(
-        acceso_por_servicio,
+    # Crear gráfico de pastela
+    plt.figure(figsize=(10, 10))  # Tamaño cuadrado para un pastel más simétrico
+    wedges, texts, autotexts = plt.pie(
+        acceso_por_servicio, # Pasamos los conteos directos. Matplotlib calculará el porcentaje.
         labels=None,
-        autopct=lambda p: f'{p:.1f}%' if p >= 1 else '', # Esto es para el porcentaje dentro de la rebanada
+        autopct='%1.1f%%',
         startangle=140,
         colors=COLOR_BY_LEVEL,
-        pctdistance=0.65, 
         wedgeprops={'edgecolor': 'black', 'linewidth': 0.5}
     )
+    # Estilo para el texto del porcentaje
+    plt.setp(autotexts, size=12, weight="bold", color="white")
 
-plt.setp(autotexts, size=10, weight="bold", color="white")
-plt.setp(texts_pie, size=10, weight="bold", color="black")
-plt.title("Distribución de Accesos\na Servicios Públicos", fontsize=22, pad=20)  # Título del gráfico
-plt.axis('equal')  # Para que el gráfico sea un círculo
+    plt.title("Distribución de Acceso\na Servicios Públicos", fontsize=22, pad=20)
+    plt.axis('equal')  # Asegura que el gráfico sea un círculo.
+    
+    # Para que la leyenda coincida, calculamos el porcentaje sobre la misma base que el gráfico:
+    # la suma total de accesos reales.
+    total_accesos_reales = np.sum(acceso_por_servicio)
+    legend_patches = [mpatches.Patch(color=color, label=f'{label}: {(size/total_accesos_reales*100):.1f}%')
+                      for label, color, size in zip(servicios_nombres, COLOR_BY_LEVEL, acceso_por_servicio)]
+    
+    plt.legend(handles=legend_patches, title="Servicios Públicos", loc="center left", bbox_to_anchor=(1.02, 0.5), fontsize=12, title_fontsize=14)
+    plt.tight_layout(rect=[0, 0, 0.8, 1])  # Ajustar para dejar espacio a la leyenda
+    plt.show()
+    
+    
+# Llamar a las funciones para crear los gráficos
+create_pie_chart()
 
-# Modificado para incluir el porcentaje en la etiqueta de la leyenda
-pie_labels_for_legend = servicios_nombres
-legend_patches = [mpatches.Patch(color=color, label=f'{label} ({percentage:.1f}%)') 
-                  for label, color, percentage in zip(pie_labels_for_legend, COLOR_BY_LEVEL, porcentaje_pastel)]
-# Añadir leyenda
-plt.legend(
-    handles=legend_patches,
-    title="Nivel de Escolaridad",
-    loc="center left",
-    bbox_to_anchor=(1.02, 0.5),
-    fontsize=12,
-    title_fontsize=14
-)
-
-plt.tight_layout()
-plt.show()
-
-print('total_accesos', total_accesos)
 print('acceso_por_servicio', acceso_por_servicio)
-print('porcentaje_pastel', porcentaje_pastel)
