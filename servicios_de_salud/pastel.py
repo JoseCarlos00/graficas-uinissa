@@ -51,7 +51,7 @@ def plot_pie_chart(
     wedges, texts_pie, autotexts = plt.pie(
         pie_counts,
         labels=None,
-        autopct=lambda p: f'{p:.1f}%' if p >= 1 else '', # Esto es para el porcentaje dentro de la rebanada
+        autopct=lambda p: f'{p:.1f}%' if p >= 2 else '', # Esto es para el porcentaje dentro de la rebanada
         startangle=140,
         colors=pie_colors,
         pctdistance=0.85, 
@@ -59,7 +59,7 @@ def plot_pie_chart(
     )
 
     plt.setp(autotexts, size=12, weight="bold", color="white") # Ajusta el tamaño del texto del porcentaje en la rebanada
-    plt.title(title.title(), fontsize=16, pad=20) # Mantiene el tamaño de fuente del título original
+    plt.title(title.title(), fontsize=22, fontweight="bold", pad=20) # Mantiene el tamaño de fuente del título original
     plt.axis('equal')
 
     # 4. Añadir leyenda
